@@ -1,10 +1,14 @@
 import java.util.Scanner;
-public class Task1{
+public class Task11{
 	public static void main(String[] args) {
 		Scanner inp = new Scanner(System.in);
-		int a = inp.nextInt();
-		int b = inp.nextInt();
-		int c = a + b;
-		System.out.println(c);
+		int n = inp.nextInt();
+		int c = inp.nextInt();
+		int ym = n * c - (c - 1);
+		int xm = 2 * c * (n - 1) + 1;
+		String [][] mas = new String[ym][m];
+		for (int i = 0; i < c; i++){
+			
+		}
 	}
 }
