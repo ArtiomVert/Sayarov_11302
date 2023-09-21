@@ -1,5 +1,6 @@
 import java.util.Scanner;
 public class Zadachi {
+	
 	public static void main(String[] args) {
 		System.out.println("!!!!!000!!!!!");
 		Scanner inp = new Scanner(System.in);
