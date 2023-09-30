@@ -1,6 +1,6 @@
 import java.util.Scanner;
 public class Task11{
-	public static String[][] pyr(int i, int n, int x, int y, String[][] mas){
+	public static Boolean[][] pyr(int i, int n, int x, int y, Boolean[][] mas){
 		int x1 = 0;
 		int y1 = 0;
 		for (int c = 0; c < i; c++){
@@ -9,7 +9,7 @@ public class Task11{
 				x1 = x - q;
 				y1 = y + q;
 				for (int w = 0; w < cnt; w++){
-					mas[y1][x1+w] = "8";
+					mas[y1][x1+w] = true;
 				}
 				cnt += 2;
 			}
@@ -19,27 +19,28 @@ public class Task11{
 	}
 	public static void main(String[] args) {
 		Scanner inp = new Scanner(System.in);
+		System.out.println("Введите высоту пирамидки");
 		int n = inp.nextInt();
+		System.out.println("Введите количество 'этажей' пирамидок");
 		int c = inp.nextInt();
 		int ym = n * c - (c - 1);
 		int xm = 2 * c * (n - 1) + 1;
 		int x = n * c - c;
 		int y = 0;
-		String[][] mas = new String[ym][xm];
+		Boolean[][] mas = new Boolean[ym][xm];
 		for (int yo = 0; yo < ym; yo ++){
 			for (int xo = 0; xo < xm; xo ++){
-				mas[yo][xo] = " ";
+				mas[yo][xo] = false;
 			}
 		}
 		for (int i = 1; i <= c; i++){
 			mas = pyr(i, n, x, y, mas);
 			x = x - n + 1;
 			y = y + n - 1;
-			System.out.println(x + " " + y);
 		}
 		for (int yo = 0; yo < ym; yo ++){
 			for (int xo = 0; xo < xm; xo ++){
-				System.out.print(mas[yo][xo]);
+				System.out.print(mas[yo][xo]?"8":" ");
 			}
 			System.out.println();
 		}
