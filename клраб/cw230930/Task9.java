@@ -50,7 +50,7 @@ public class Task9{
 					}
 				}
 				if (f){
-					System.out.println("PIZDEC");
+					System.out.println("PIPEC. Это невозможно.");
 					break;
 				}
 				System.out.println("Строка " + (i+1) + " поменялась со строкой " + zamena);
