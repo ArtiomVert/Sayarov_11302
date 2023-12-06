@@ -9,6 +9,7 @@ public class RationalFraction{
 		set(c, z);
 	}
 	private void set(int c, int z){
+		if(z == 0) throw new ZeroException("The denominator can't be 0");
 		this.c = c*z/abs(z);
 		this.z = abs(z);
 		reduce();
