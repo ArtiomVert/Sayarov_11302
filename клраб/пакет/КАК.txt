@@ -1,0 +1,2 @@
+javac -encoding utf8 -sourcepath src -classpath bin -d bin src/ru/kpfu/itis/group302/game/MainMenu.java
+java -classpath bin ru.kpfu.itis.group302.game.MainMenu
