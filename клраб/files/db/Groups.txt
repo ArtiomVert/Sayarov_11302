@@ -1,0 +1,21 @@
+20
+1 novostiVladivostok Vladivostok
+2 novostiYakutsk Yakutsk
+3 novostiSochi Sochi
+4 novostiVelikyNovgorod VelikyNovgorod
+5 novostiKaliningrad Kaliningrad
+6 novostiVoronezh Voronezh
+7 novostiMoscow Moscow
+8 novostiKazan Kazan
+9 novostiSaintPetersburg SaintPetersburg
+10 novostiChelyabinsk Chelyabinsk
+11 novostiNaberezhnyeChelny NaberezhnyeChelny
+12 novostiYoshkarOla YoshkarOla
+13 novostiKrasnodar Krasnodar
+14 novostiKrasnoyarsk Krasnoyarsk
+15 novostiDonetsk Donetsk
+16 novostiOrenburg Orenburg
+17 novostiSterlitamak Sterlitamak
+18 novostiUfa Ufa
+19 novostiVolgograd Volgograd
+20 novostiMurmansk Murmansk
