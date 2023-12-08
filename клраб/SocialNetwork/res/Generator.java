@@ -15,7 +15,7 @@ public class Generator{
 			}
 			w.close();
 		}catch (Exception e) {
-			System.out.println("SUKA BLYAT");
+			System.out.println("Error in User.txt");
 		}
 		try{
 			FileWriter w = new FileWriter("Groups.txt", false);
@@ -25,27 +25,27 @@ public class Generator{
 			}
 			w.close();
 		}catch (Exception e) {
-			System.out.println("SUKA BLYAT");
+			System.out.println("Error in Groups.txt");
 		}
 		try{
 			FileWriter w = new FileWriter("Subscriptions.txt", false);
-			w.write("250\n");
-			for (int[] u:subs(150)){
+			w.write("700\n");
+			for (int[] u:subs(150, 1000)){
 				w.write(u[0]+" "+u[1]+"\n");
 			}
 			w.close();
 		}catch (Exception e) {
-			System.out.println("SUKA BLYAT");
+			System.out.println("Error in Subscriptions.txt");
 		}
 		try{
 			FileWriter w = new FileWriter("Members.txt", false);
 			w.write("300\n");
-			for (int[] u:mems(150, n_city)){
+			for (int[] u:mems(150, n_city, 600)){
 				w.write(u[0]+" "+u[1]+"\n");
 			}
 			w.close();
 		}catch (Exception e) {
-			System.out.println("SUKA BLYAT");
+			System.out.println("Error in Members.txt");
 		}
 	}
 	public static boolean cor(int[][] u, int[] w){
@@ -56,10 +56,10 @@ public class Generator{
 		}
 		return false;
 	}
-	public static int[][] subs(int n){
-		int[][] u = new int[250][2];
+	public static int[][] subs(int n, int count){
+		int[][] u = new int[count][2];
 		Random r = new Random();
-		for (int i = 0; i < 250; i++){
+		for (int i = 0; i < count; i++){
 			int[] x = new int[2];
 			do{
 				x[0] = 1+r.nextInt(n);
@@ -70,10 +70,10 @@ public class Generator{
 		}
 		return u;
 	}
-	public static int[][] mems(int na, int nc){
-		int[][] u = new int[300][2];
+	public static int[][] mems(int na, int nc, int count){
+		int[][] u = new int[count][2];
 		Random r = new Random();
-		for (int i = 0; i < 300; i++){
+		for (int i = 0; i < count; i++){
 			int[] x = new int[2];
 			do{
 				x[0] = 1+r.nextInt(nc);

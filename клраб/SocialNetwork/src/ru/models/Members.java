@@ -1,7 +1,8 @@
+package ru.models;
 public class Members{
-	int n = 0;
-	Group[] groups;
-	User[] users;
+	public int n = 0;
+	public Group[] groups;
+	public User[] users;
 	public Members(){
 		groups = new Group[0];
 		users = new User[0];

@@ -1,3 +1,8 @@
+package ru.database;
+import ru.models.User;
+import ru.models.Group;
+import ru.models.Members;
+import ru.models.Subscriptions;
 import java.util.Scanner;
 import java.io.File;
 public class SocialNetworkDataBase{
@@ -7,8 +12,7 @@ public class SocialNetworkDataBase{
 	public Subscriptions subs = new Subscriptions();
 	public Members members = new Members();
 
-	private void fillUsers()throws Exception{
-		Scanner sc = new Scanner(new File("db/Users.txt"));
+	private void fillUsers(Scanner sc)throws Exception{
 		int n = Integer.parseInt(sc.nextLine());
 		users = new User[n];
 		for (int i = 0; i < n; i++){
@@ -17,8 +21,7 @@ public class SocialNetworkDataBase{
 		}
 	}
 
-	private void fillGroups()throws Exception{
-		Scanner sc = new Scanner(new File("db/Groups.txt"));
+	private void fillGroups(Scanner sc)throws Exception{
 		int n = Integer.parseInt(sc.nextLine());
 		groups = new Group[n];
 		for (int i = 0; i < n; i++){
@@ -45,8 +48,7 @@ public class SocialNetworkDataBase{
 		return null;
 	}
 
-	private void fillSubs()throws Exception{
-		Scanner sc = new Scanner(new File("db/Subscriptions.txt"));
+	private void fillSubs(Scanner sc)throws Exception{
 		int n = Integer.parseInt(sc.nextLine());
 		for (int i = 0; i < n; i++){
 			String[] args = sc.nextLine().split(" ");
@@ -56,8 +58,7 @@ public class SocialNetworkDataBase{
 		}
 	}
 
-	private void fillMembers()throws Exception{
-		Scanner sc = new Scanner(new File("db/Members.txt"));
+	private void fillMembers(Scanner sc)throws Exception{
 		int n = Integer.parseInt(sc.nextLine());
 		for (int i = 0; i < n; i++){
 			String[] args = sc.nextLine().split(" ");
@@ -70,10 +71,10 @@ public class SocialNetworkDataBase{
 	public SocialNetworkDataBase(){}
 	public boolean init(){
 		try{
-			fillUsers();
-			fillGroups();
-			fillSubs();
-			fillMembers();
+			fillUsers(new Scanner(new File("res/Users.txt")));
+			fillGroups(new Scanner(new File("res/Groups.txt")));
+			fillSubs(new Scanner(new File("res/Subscriptions.txt")));
+			fillMembers(new Scanner(new File("res/Members.txt")));
 		}catch (Exception e) {
 			return false;
 		}

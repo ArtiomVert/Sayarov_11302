@@ -1,7 +1,8 @@
+package ru.models;
 public class Subscriptions{
-	int n = 0;
-	User[] users;
-	User[] his_sub;
+	public int n = 0;
+	public User[] users;
+	public User[] his_sub;
 	public Subscriptions(){
 		users = new User[0];
 		his_sub = new User[0];
