@@ -1,2 +1,2 @@
-javac -sourcepath src -classpath bin -d bin src/ru/main/Main.java
+javac -sourcepath src -d bin src/ru/main/Main.java
 java -classpath bin ru.main.Main

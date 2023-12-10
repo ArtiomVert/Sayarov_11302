@@ -2,6 +2,7 @@ import java.util.Random;
 import java.io.FileWriter;
 public class Generator{
 	public static void main(String[] args) {
+		final int USER_COUNT = 100;
 		String[] name = {"Nikita", "Ivan", "Petr", "Egor", "Liza", "Nastya", "Arsen", "Damir", "Diana", "Boris", "Slava", "Timur", "Amir", "Roman", "Konstantin", "Danil", "Maksim", "Anna", "Maria", "Olya", "Lena", "Tanya", "Ilya", "Mohamed"};
 		int n_name = name.length;
 		String[] city = {"Vladivostok", "Yakutsk", "Sochi", "VelikyNovgorod", "Kaliningrad", "Voronezh", "Moscow", "Kazan", "SaintPetersburg", "Chelyabinsk", "NaberezhnyeChelny", "YoshkarOla", "Krasnodar", "Krasnoyarsk", "Donetsk", "Orenburg", "Sterlitamak", "Ufa", "Volgograd", "Murmansk"};
@@ -9,8 +10,8 @@ public class Generator{
 		Random r = new Random();
 		try{
 			FileWriter w = new FileWriter("Users.txt", false);
-			w.write("150\n");
-			for (int i = 1; i <= 150; i++){
+			w.write(USER_COUNT+"\n");
+			for (int i = 1; i <= USER_COUNT; i++){
 				w.write(i+" "+name[r.nextInt(n_name)]+" "+city[r.nextInt(n_city)]+"\n");
 			}
 			w.close();
@@ -21,7 +22,7 @@ public class Generator{
 			FileWriter w = new FileWriter("Groups.txt", false);
 			w.write(n_city+"\n");
 			for (int i = 1; i <= n_city; i++){
-				w.write(i+" novosti"+city[i-1]+" "+city[i-1]+"\n");
+				w.write(i+" novosti"+city[i-1]+" "+city[i-1]+" "+(1+r.nextInt(USER_COUNT))+"\n");
 			}
 			w.close();
 		}catch (Exception e) {
@@ -29,8 +30,9 @@ public class Generator{
 		}
 		try{
 			FileWriter w = new FileWriter("Subscriptions.txt", false);
-			w.write("700\n");
-			for (int[] u:subs(150, 1000)){
+			int n = USER_COUNT*(USER_COUNT-50);
+			w.write(n+"\n");
+			for (int[] u:subs(USER_COUNT, n)){
 				w.write(u[0]+" "+u[1]+"\n");
 			}
 			w.close();
@@ -39,8 +41,9 @@ public class Generator{
 		}
 		try{
 			FileWriter w = new FileWriter("Members.txt", false);
-			w.write("300\n");
-			for (int[] u:mems(150, n_city, 600)){
+			int n = USER_COUNT*2;
+			w.write(n + "\n");
+			for (int[] u:mems(USER_COUNT, n_city, n)){
 				w.write(u[0]+" "+u[1]+"\n");
 			}
 			w.close();

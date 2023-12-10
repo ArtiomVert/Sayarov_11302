@@ -5,14 +5,10 @@ import ru.models.Members;
 import ru.models.Subscriptions;
 import java.util.Scanner;
 import java.io.File;
-public class SocialNetworkDataBase{
+public class SocialNetworkDataBase extends ADataBase{
 
-	public User[] users;
-	public Group[] groups;
-	public Subscriptions subs = new Subscriptions();
-	public Members members = new Members();
-
-	private void fillUsers(Scanner sc)throws Exception{
+	protected void fillUsers()throws Exception{
+		Scanner sc = new Scanner(new File("res/Users.txt"));
 		int n = Integer.parseInt(sc.nextLine());
 		users = new User[n];
 		for (int i = 0; i < n; i++){
@@ -21,34 +17,18 @@ public class SocialNetworkDataBase{
 		}
 	}
 
-	private void fillGroups(Scanner sc)throws Exception{
+	protected void fillGroups()throws Exception{
+		Scanner sc = new Scanner(new File("res/Groups.txt"));
 		int n = Integer.parseInt(sc.nextLine());
 		groups = new Group[n];
 		for (int i = 0; i < n; i++){
 			String[] args = sc.nextLine().split(" ");
-			groups[i] = new Group(Integer.parseInt(args[0]), args[1], args[2]);
+			groups[i] = new Group(Integer.parseInt(args[0]), args[1], args[2], getUserOnId(Integer.parseInt(args[3])));
 		}
 	}
 
-	public User getUserOnId(int id){
-		for (User u:users){
-			if (u.id == id){
-				return u;
-			}
-		}
-		return null;
-	}
-
-	public Group getGroupOnId(int id){
-		for (Group g:groups){
-			if (g.id == id){
-				return g;
-			}
-		}
-		return null;
-	}
-
-	private void fillSubs(Scanner sc)throws Exception{
+	protected void fillSubs()throws Exception{
+		Scanner sc = new Scanner(new File("res/Subscriptions.txt"));
 		int n = Integer.parseInt(sc.nextLine());
 		for (int i = 0; i < n; i++){
 			String[] args = sc.nextLine().split(" ");
@@ -58,7 +38,8 @@ public class SocialNetworkDataBase{
 		}
 	}
 
-	private void fillMembers(Scanner sc)throws Exception{
+	protected void fillMembers()throws Exception{
+		Scanner sc = new Scanner(new File("res/Members.txt"));
 		int n = Integer.parseInt(sc.nextLine());
 		for (int i = 0; i < n; i++){
 			String[] args = sc.nextLine().split(" ");
@@ -66,18 +47,5 @@ public class SocialNetworkDataBase{
 			int id2 = Integer.parseInt(args[1]);
 			members.addMember(getGroupOnId(id1), getUserOnId(id2));
 		}
-	}
-
-	public SocialNetworkDataBase(){}
-	public boolean init(){
-		try{
-			fillUsers(new Scanner(new File("res/Users.txt")));
-			fillGroups(new Scanner(new File("res/Groups.txt")));
-			fillSubs(new Scanner(new File("res/Subscriptions.txt")));
-			fillMembers(new Scanner(new File("res/Members.txt")));
-		}catch (Exception e) {
-			return false;
-		}
-		return true;
 	}
 }

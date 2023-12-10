@@ -3,9 +3,11 @@ public class Group{
 	public int id;
 	public String name;
 	public String city;
-	public Group(int id, String name, String city){
+	public User admin;
+	public Group(int id, String name, String city, User admin){
 		this.id = id;
-		this.city = city;
 		this.name = name;
+		this.city = city;
+		this.admin = admin;
 	}
 }
