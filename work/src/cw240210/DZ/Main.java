@@ -1,3 +1,5 @@
+package cw240210.DZ;
+
 public class Main {
 /*
 00. Ввести линейный односвязный список (далее - список) целых чисел размера n.
@@ -17,7 +19,7 @@ public class Main {
 10. В списке после всех x вставить y. Гарантируется, что x не равно y.
 */
     public static void main(String[] args) {
-        MyList list = new MyList(new int[]{11, 2, 1, 30, 40, 11, 5, 9, 5, 11, 5, 6, 5, 3, 11, 5, 8, 7, 6, 11});
+        MyList list = new MyList(new int[]{11, 2, 1, 30, 40, 11, 5, 9, 5, 11, 5, 6, 5, 11, 5, 8, 7, 6, 11});
         //05
         list.remove(0);
         list.remove(0);

@@ -1,3 +1,5 @@
+package cw240210;
+
 import java.util.Comparator;
 public class ComparatorA implements Comparator<A>{
 	@Override

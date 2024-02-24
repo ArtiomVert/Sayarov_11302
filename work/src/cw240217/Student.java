@@ -1,3 +1,5 @@
+package cw240217;
+
 public class Student extends Person{
 
     String vyz;

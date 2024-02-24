@@ -1,3 +1,5 @@
+package cw240210;
+
 public interface MyListInterface<T>{
 	public T get(int i);
 	public void add(T t);

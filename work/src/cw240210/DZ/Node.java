@@ -1,3 +1,5 @@
+package cw240210.DZ;
+
 public class Node {
     int data;
     Node next;

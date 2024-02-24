@@ -1,3 +1,5 @@
+package cw240210.DZ;
+
 public class MyList {
     private int size = 0;
     private Node head = null;

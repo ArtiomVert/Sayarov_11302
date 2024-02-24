@@ -1,3 +1,5 @@
+package cw240210;
+
 public class A /*implements Comparable<A>*/{
 	int a;
 	int b;

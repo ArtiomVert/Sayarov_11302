@@ -1,31 +1,53 @@
+package cw240217;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyMap<K, V> {
-    List<Elem> list = new ArrayList<>();
-    List<K> keys = new ArrayList<>();
+    ArrayList<Elem<K, V>>[] list = new ArrayList[64];
 
-    public void put(K k, V v){
-        if (keys.contains(k)){
-            for (Elem e: list){
-                if(e.k.equals(k)){
-                    e.v = v;
+    public void push(K k, V v) {
+        int hc = Math.abs(k.hashCode()) % 64;
+        if (list[hc] == null) {
+            list[hc] = new ArrayList<>();
+            list[hc].add(new Elem<K, V>(k, v));
+        } else {
+            boolean flag = true;
+            for (Elem<K, V> i : list[hc]) {
+                if (i.k.equals(k)){
+                    i.v = v;
+                    flag = false;
+                    break;
                 }
             }
-        } else {
-            list.add(new Elem(k, v));
-            keys.add(k);
+            if (flag) {
+                list[hc].add(new Elem<K, V>(k, v));
+            }
         }
     }
-    public void remove(K k){
-        if(keys.contains(k)){
-            Elem de = null;
-            for (Elem e: list){
-                if(e.k.equals(k)){
-                    de = e;
+
+    public V get(K k) {
+        int hc = Math.abs(k.hashCode()) % 64;
+        if(list[hc] == null){
+            return null;
+        }
+        for (Elem<K, V> e: list[hc]){
+            if (e.k.equals(k)) {
+                return e.v;
+            }
+        }
+        return null;
+    }
+
+    public void remove(K k) {
+        int hc = Math.abs(k.hashCode()) % 64;
+        if (list[hc] != null) {
+            for (Elem<K, V> e: list[hc]){
+                if (e.k.equals(k)) {
+                    list[hc].remove(e);
+                    break;
                 }
             }
-            list.remove(de);
         }
     }
 }

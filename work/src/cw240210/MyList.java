@@ -1,9 +1,11 @@
+package cw240210;
+
 public class MyList implements MyListInterface<Integer>{
 	private int[] a;
 	private int size;
 	public MyList(int[] a){
 		this.a = a;
-		size = a.length();
+		size = a.length;
 	}
 	public MyList(){
 		a = new int[0];

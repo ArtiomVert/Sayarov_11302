@@ -1,3 +1,5 @@
+package cw240210;
+
 import java.util.*;
 public class MyArrayIterator implements Iterator<Integer>{
 	private final int[] a;
