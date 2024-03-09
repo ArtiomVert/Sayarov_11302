@@ -13,6 +13,7 @@ public class Main {
             System.out.println(a);
         });
         IntStream.range(1, 11).filter((int a)-> a%2==1).forEach(System.out::print);
+
         int[] array = IntStream.range(1, 11).toArray();
         array = Arrays.stream(array).filter((int a)-> (a&1)==0).toArray();
         System.out.println(Arrays.toString(array));
