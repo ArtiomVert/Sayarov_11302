@@ -1,4 +1,4 @@
-package cw240217.DZ;
+package homeworks.DZ2;
 
 public class Student {
     String name;

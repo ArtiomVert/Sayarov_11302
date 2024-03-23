@@ -1,4 +1,4 @@
-package cw240217.DZ;
+package homeworks.DZ2;
 
 import org.junit.jupiter.api.Test;
 

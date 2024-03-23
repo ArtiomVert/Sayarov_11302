@@ -1,4 +1,4 @@
-package cw240217.DZ;
+package homeworks.DZ2;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;

@@ -1,4 +1,4 @@
-package cw240210.DZ;
+package homeworks.DZ1;
 
 public class Node {
     int data;
