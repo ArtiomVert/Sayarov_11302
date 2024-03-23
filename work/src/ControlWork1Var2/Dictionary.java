@@ -32,10 +32,9 @@ public class Dictionary {
             return;
         }
         Word cur = head;
-        for (int i = 0; i < size; i++) {
+        while (cur != null) {
             if (cur.getSource().equals(source)) {
                 cur.addTranslate(new_translate);
-                size++;
                 return;
             }
             cur = cur.getNext();
@@ -47,6 +46,11 @@ public class Dictionary {
 
     public void delete(String k) {
         if (head == null) return;
+        if (head.getSource().equals(k)) {
+            head = head.getNext();
+            size--;
+            return;
+        }
         if (end.getSource().equals(k)) {
             Word cur = head;
             for (int i = 1; i < size - 1; i++) {
@@ -54,6 +58,7 @@ public class Dictionary {
             }
             end = cur;
             end.setNext(null);
+            size--;
             return;
         }
         Word cur = head;
@@ -61,12 +66,13 @@ public class Dictionary {
             cur = cur.getNext();
         }
         cur.setNext(cur.getNext().getNext());
+        size--;
     }
 
     public Set<String> unique() {
         Set<String> words = new HashSet<>();
         Word cur = head;
-        for (int i = 0; i < size; i++) {
+        while (cur != null) {
             if (cur.getSize() == 1) words.add(cur.getSource());
             cur = cur.getNext();
         }
@@ -77,7 +83,7 @@ public class Dictionary {
         String[] words = text.split(" ");
         for (int i = 0; i < words.length; i++) {
             Word cur = head;
-            while(cur!=null) {
+            while (cur != null) {
                 if (cur.getSource().equals(words[i])) {
                     words[i] = cur.getTranslate()[0];
                     break;
@@ -86,24 +92,25 @@ public class Dictionary {
             }
         }
         String out_text = "";
-        for (String word:words){
-            if(!out_text.isEmpty()) out_text+=" ";
+        for (String word : words) {
+            if (!out_text.isEmpty()) out_text += " ";
             out_text += word;
         }
         return out_text;
     }
-    public int numLen1(){
+
+    public int numLen1() {
         int count = 0;
         Word cur = head;
-        while(cur!=null) {
+        while (cur != null) {
             boolean f = true;
-            for(String word:cur.getTranslate()){
-                if(cur.getSource().length()+1<word.length()){
+            for (String word : cur.getTranslate()) {
+                if (cur.getSource().length() + 1 < word.length()) {
                     f = false;
                     break;
                 }
             }
-            if(f) count++;
+            if (f) count++;
             cur = cur.getNext();
         }
         return count;
