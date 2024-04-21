@@ -1,6 +1,7 @@
 package Reflection;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 public class ClassToJSON {
     public static <T> String toJSON(T o) throws Exception {
@@ -10,6 +11,12 @@ public class ClassToJSON {
                 json += "\n\"" + a.getName() + "\":\"" + a.get(o) + "\",";
             } else if (isPrimitive(a.getType()) || a.get(o) == null) {
                 json += "\n\"" + a.getName() + "\":" + a.get(o) + ",";
+            } else if (a.getType().isArray()) {
+                if(isPrimitive(a.getType().getComponentType())){
+                    json+="\n\"" + a.getName() + "\":"+a.get(o)+",";
+                }else{
+                    json+="\n\"" + a.getName() + "\":"+Arrays.toString((Object[]) a.get(o))+",";
+                }
             } else {
                 json += "\n\"" + a.getName() + "\":" + toJSON(a.get(o)) + ",";
             }
