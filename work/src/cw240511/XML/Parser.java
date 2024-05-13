@@ -1,33 +1,10 @@
-package homeworks.DZ4;
+package cw240511.XML;
 
-import homeworks.DZ4.HTML.HTML;
-import homeworks.DZ4.HTML.Teg;
-
-import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Stack;
 
-public class Task28 {
+public class Parser {
     //Загрузить из интернета html страницу, распарсить её (опираясь на теги и построив дерево)
-    static HTML getHTML() {
-        HTML html = new HTML();
-        String s = "";
-        try {
-            FileInputStream in = new FileInputStream("work\\res\\task28_for_dz4.txt");
-            int data = in.read();
-            ArrayList<Byte> bs = new ArrayList<>();
-            while (data != -1) {
-                bs.add((byte) data);
-                data = in.read();
-            }
-            byte[] b = new byte[bs.size()];
-            for (int i = 0; i < bs.size(); i++) {
-                b[i] = bs.get(i);
-            }
-            s = new String(b);
-            in.close();
-        } catch (Exception e) {
-        }
+    public static XML getXML(String s) {
         Stack<Teg> tegs = new Stack<>();
         while (s.contains("<")) {
             int index = s.indexOf("<");
@@ -93,35 +70,10 @@ public class Task28 {
             }
             s = new_s.substring(new_s.indexOf(">") + 1);
         }
+        XML xml = new XML();
         while (!tegs.empty()) {
-            html.tegs.add(tegs.pop());
+            xml.tegs.add(tegs.pop());
         }
-        return html;
-    }
-
-    public static void main(String[] args) {
-        HTML html = getHTML();
-        for (Teg t : html.tegs) {
-            print(t, 0);
-        }
-
-    }
-    static String q(int c){
-        String s = "";
-        for (int i = 0; i < c; i++) {
-            s+="   ";
-        }
-        return s;
-    }
-    static void print(Teg t, int space){
-        String sp = q(space);
-        System.out.print(sp+t.name+": ");
-        for (String a: t.atr.keySet()){
-            System.out.print(a+"="+t.atr.get(a)+" ");
-        }
-        System.out.println();
-        for (Teg t1:t.tegs){
-            print(t1, space+1);
-        }
+        return xml;
     }
 }
