@@ -9,32 +9,16 @@ import java.util.Stack;
 
 public class Task28 {
     //Загрузить из интернета html страницу, распарсить её (опираясь на теги и построив дерево)
-    static HTML getHTML() {
+    // "work\\res\\task28_for_dz4.txt"
+    static HTML getHTML(String html_string) {
         HTML html = new HTML();
-        String s = "";
-        try {
-            FileInputStream in = new FileInputStream("work\\res\\task28_for_dz4.txt");
-            int data = in.read();
-            ArrayList<Byte> bs = new ArrayList<>();
-            while (data != -1) {
-                bs.add((byte) data);
-                data = in.read();
-            }
-            byte[] b = new byte[bs.size()];
-            for (int i = 0; i < bs.size(); i++) {
-                b[i] = bs.get(i);
-            }
-            s = new String(b);
-            in.close();
-        } catch (Exception e) {
-        }
         Stack<Teg> tegs = new Stack<>();
-        while (s.contains("<")) {
-            int index = s.indexOf("<");
-            String new_s = s.substring(index);
+        while (html_string.contains("<")) {
+            int index = html_string.indexOf("<");
+            String new_s = html_string.substring(index);
             if (new_s.indexOf("</") == 0) {
                 if (!tegs.peek().closed && new_s.indexOf("</" + tegs.peek().name) == 0) {
-                    tegs.peek().atr.put("text", s.substring(0, index));
+                    tegs.peek().atr.put("text", html_string.substring(0, index));
                     tegs.peek().closed = true;
                 } else {
                     Stack<Teg> t = new Stack<>();
@@ -91,7 +75,7 @@ public class Task28 {
                 }
                 tegs.push(t);
             }
-            s = new_s.substring(new_s.indexOf(">") + 1);
+            html_string = new_s.substring(new_s.indexOf(">") + 1);
         }
         while (!tegs.empty()) {
             html.tegs.add(tegs.pop());
@@ -100,28 +84,45 @@ public class Task28 {
     }
 
     public static void main(String[] args) {
-        HTML html = getHTML();
+        String s = "";
+        try (FileInputStream in = new FileInputStream("work\\res\\task28_for_dz4.txt")) {
+            int data = in.read();
+            ArrayList<Byte> bs = new ArrayList<>();
+            while (data != -1) {
+                bs.add((byte) data);
+                data = in.read();
+            }
+            byte[] b = new byte[bs.size()];
+            for (int i = 0; i < bs.size(); i++) {
+                b[i] = bs.get(i);
+            }
+            s = new String(b);
+        } catch (Exception e) {
+        }
+        HTML html = getHTML(s);
         for (Teg t : html.tegs) {
             print(t, 0);
         }
 
     }
-    static String q(int c){
+
+    static String q(int c) {
         String s = "";
         for (int i = 0; i < c; i++) {
-            s+="   ";
+            s += "   ";
         }
         return s;
     }
-    static void print(Teg t, int space){
+
+    static void print(Teg t, int space) {
         String sp = q(space);
-        System.out.print(sp+t.name+": ");
-        for (String a: t.atr.keySet()){
-            System.out.print(a+"="+t.atr.get(a)+" ");
+        System.out.print(sp + t.name + ": ");
+        for (String a : t.atr.keySet()) {
+            System.out.print(a + "=" + t.atr.get(a) + " ");
         }
         System.out.println();
-        for (Teg t1:t.tegs){
-            print(t1, space+1);
+        for (Teg t1 : t.tegs) {
+            print(t1, space + 1);
         }
     }
 }

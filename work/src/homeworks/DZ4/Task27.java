@@ -6,22 +6,26 @@ import java.io.OutputStream;
 import java.net.URL;
 
 public class Task27 {
-    static boolean download(String link,String file_name){
-        try{
+    static boolean download(String link, String file_name) {
+        try {
             URL url = new URL(link);
-            InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(file_name);
-            int data = is.read();
-            while(data!=-1){
-                os.write(data);
-                data = is.read();
+            try (InputStream is = url.openStream();
+                 OutputStream os = new FileOutputStream(file_name)) {
+                int data = is.read();
+                while (data != -1) {
+                    os.write(data);
+                    data = is.read();
+                }
+            } catch (Exception e) {
+                return false;
             }
-            os.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+
         return true;
     }
+
     public static void main(String[] args) throws Exception {
         System.out.println(download(
                 "https://img.freepik.com/premium-photo/trees-growing-in-forest_1048944-30368869.jpg",
