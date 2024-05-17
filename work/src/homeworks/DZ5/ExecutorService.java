@@ -12,7 +12,7 @@ public class ExecutorService {
 
     private int n;
     private ArrayDeque<Pair> que;
-    private Thread[] threads;
+    private DownloadThread[] threads;
     private ArrayList<String> ready;
 
     public ExecutorService(int n) {
@@ -33,6 +33,12 @@ public class ExecutorService {
     }
 
     public void getStatus(String name) {
+        for (DownloadThread t : threads) {
+            if (t.workPair.name.equals(name)) {
+                System.out.println(t.getProcent() + "%");
+                return;
+            }
+        }
         if (ready.contains(name)) {
             System.out.println("100%");
         } else {
@@ -55,6 +61,10 @@ class DownloadThread extends Thread {
 
     ArrayDeque<Pair> que;
     ArrayList<String> ready;
+    Pair workPair;
+    URL url;
+    int readed = 0;
+    int fileSize = 0;
 
     public DownloadThread(ArrayDeque<Pair> que, ArrayList<String> ready) {
         this.que = que;
@@ -63,45 +73,54 @@ class DownloadThread extends Thread {
 
     private boolean work(Pair p) {
         String file_name = "work\\res\\videos_task29-30\\" + p.name + ".mp4";
-        URL url;
         try {
             url = new URL(p.link);
+            fileSize = url.openConnection().getContentLength();
         } catch (Exception e) {
+            url = null;
             return false;
         }
         try (InputStream is = url.openStream();
              OutputStream os = new FileOutputStream(file_name)) {
+            readed = 0;
             int data = is.read();
             while (data != -1) {
                 os.write(data);
                 data = is.read();
+                readed++;
             }
             return true;
         } catch (Exception e) {
             return false;
+        } finally {
+            url = null;
         }
+    }
+
+    public int getProcent() {
+        if (workPair != null) {
+            return readed * 100 / fileSize;
+        }
+        return 0;
     }
 
     @Override
     public void run() {
-        boolean isWork = false;
-        Pair p = null;
         while (true) {
             synchronized (que) {
                 if (!que.isEmpty()) {
-                    p = que.pop();
-                    isWork = true;
+                    workPair = que.pop();
                 }
             }
-            if (isWork) {
-                if (work(p)) {
-                    ready.add(p.name);
+            if (workPair != null) {
+                if (work(workPair)) {
+                    ready.add(workPair.name);
                 } else {
                     synchronized (que) {
-                        que.add(p);
+                        que.add(workPair);
                     }
                 }
-                isWork = false;
+                workPair = null;
             }
         }
     }
