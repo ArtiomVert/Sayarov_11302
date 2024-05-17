@@ -19,54 +19,11 @@ public class ExecutorService {
         que = new ArrayDeque<>();
         ready = new ArrayList<>();
         this.n = n;
-        threads = new Thread[n];
+        threads = new DownloadThread[n];
         for (int i = 0; i < n; i++) {
-            threads[i] = new Thread() {
-                private boolean work(Pair p) {
-                    try {
-                        URL url = new URL(p.link);
-                        InputStream is = url.openStream();
-                        String file_name = "work\\res\\videos_task29-30\\" + p.name + ".mp4";
-                        OutputStream os = new FileOutputStream(file_name);
-                        int data = is.read();
-                        while (data != -1) {
-                            os.write(data);
-                            data = is.read();
-                        }
-                        os.close();
-                        return true;
-                    } catch (Exception e) {
-                        return false;
-                    }
-                }
-
-                @Override
-                public void run() {
-                    boolean isWork = false;
-                    Pair p = null;
-                    while (true) {
-                        synchronized (que) {
-                            if (!que.isEmpty()) {
-                                p = que.pop();
-                                isWork = true;
-                            }
-                        }
-                        if (isWork) {
-                            if (work(p)) {
-                                ready.add(p.name);
-                            } else {
-                                synchronized (que) {
-                                    que.add(p);
-                                }
-                            }
-                            isWork = false;
-                        }
-                    }
-                }
-            };
+            threads[i] = new DownloadThread(que, ready);
             threads[i].start();
         }
-
     }
 
     public void addToQueue(String link, String name) {
@@ -91,5 +48,61 @@ class Pair {
     public Pair(String link, String name) {
         this.link = link;
         this.name = name;
+    }
+}
+
+class DownloadThread extends Thread {
+
+    ArrayDeque<Pair> que;
+    ArrayList<String> ready;
+
+    public DownloadThread(ArrayDeque<Pair> que, ArrayList<String> ready) {
+        this.que = que;
+        this.ready = ready;
+    }
+
+    private boolean work(Pair p) {
+        String file_name = "work\\res\\videos_task29-30\\" + p.name + ".mp4";
+        URL url;
+        try {
+            url = new URL(p.link);
+        } catch (Exception e) {
+            return false;
+        }
+        try (InputStream is = url.openStream();
+             OutputStream os = new FileOutputStream(file_name)) {
+            int data = is.read();
+            while (data != -1) {
+                os.write(data);
+                data = is.read();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void run() {
+        boolean isWork = false;
+        Pair p = null;
+        while (true) {
+            synchronized (que) {
+                if (!que.isEmpty()) {
+                    p = que.pop();
+                    isWork = true;
+                }
+            }
+            if (isWork) {
+                if (work(p)) {
+                    ready.add(p.name);
+                } else {
+                    synchronized (que) {
+                        que.add(p);
+                    }
+                }
+                isWork = false;
+            }
+        }
     }
 }
