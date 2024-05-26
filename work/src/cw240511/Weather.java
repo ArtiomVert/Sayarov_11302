@@ -2,41 +2,63 @@ package cw240511;
 
 import cw240511.XML.*;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Weather {
     static String APIKEY = "879683e3920e34a11fd62e0369ef6807";
     static String s1 = "https://api.openweathermap.org/data/2.5/weather?mode=xml&units=metric&q=";
     static String s4 = "&appid=";
 
-    public static void main(String[] args) throws Exception {
-
-        String link = s1 + "Zelenodolsk" + s4 + APIKEY;
-        URL url = new URL(link);
-        InputStream is = url.openStream();
-        String s = "";
-        int data = is.read();
-        while (data != -1) {
-            s += (char) data;
-            data = is.read();
+    static XML getXML(String city) {
+        String link = s1 + city + s4 + APIKEY;
+        URL url;
+        try {
+            url = new URL(link);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        XML x = Parser.getXML(s);
-        Teg start = x.tegs.get(0);
+        String s;
+        try (InputStream is = url.openStream()) {
+            byte[] bs = new byte[url.openConnection().getContentLength()];
+            is.read(bs);
+            s = new String(bs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        XML xml = Parser.getXML(s);
+        return xml;
+    }
+
+    static void writeData(Teg start) {
         try (FileOutputStream out = new FileOutputStream("work\\src\\cw240511\\file.csv", true)) {
-            out.write("city,temperature,date\n".getBytes());
             Teg city = find(start, "city");
             Teg temperature = find(start, "temperature");
             Teg date = find(start, "lastupdate");
-            String out_string = city.atr.get("name") + "," + temperature.atr.get("value") + "," + date.atr.get("value")+"\n";
+            Teg pressure = find(start, "pressure");
+            Teg weather = find(start, "weather");
+            String out_string = city.atr.get("name") + ";" + temperature.atr.get("value")
+                    + ";" + date.atr.get("value") + ";" + pressure.atr.get("value")
+                    + pressure.atr.get("unit") + ";" + weather.atr.get("value") + "\n";
             out.write(out_string.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (Teg t : start.tegs) {
-            print(t, 0);
+    }
+
+
+    public static void main(String[] args) {
+        String[] cities = new String[]{"Kazan", "Zelenodolsk", "Moscow", "Kursk", "Smolensk", "Samara", "Novosibirsk"};
+        for (String city : cities) {
+            Teg start = getXML(city).tegs.get(0);
+            writeData(start);
+            for (Teg t : start.tegs) {
+                print(t, 0);
+            }
         }
     }
 
