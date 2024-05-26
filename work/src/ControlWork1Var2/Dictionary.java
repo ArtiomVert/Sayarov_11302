@@ -48,6 +48,9 @@ public class Dictionary {
         if (head == null) return;
         if (head.getSource().equals(k)) {
             head = head.getNext();
+            if (size == 1) {
+                end = null;
+            }
             size--;
             return;
         }
@@ -105,7 +108,7 @@ public class Dictionary {
         while (cur != null) {
             boolean f = true;
             for (String word : cur.getTranslate()) {
-                if (cur.getSource().length() + 1 < word.length()) {
+                if (Math.abs(cur.getSource().length() - word.length()) > 1) {
                     f = false;
                     break;
                 }
